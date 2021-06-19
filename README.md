@@ -11,7 +11,7 @@ The library wascreated on the PlatformIO platform. Before starting work, install
 
 [env:nano_33_iot]</br>
 platform = atmelsam</br>
-board = nano_33_iot</br></br>
+board = nano_33_iot</br>
 framework = arduino</br>
 
 ![image](https://user-images.githubusercontent.com/74513162/122640655-0096fe00-d101-11eb-9810-e077cc969e62.png)
