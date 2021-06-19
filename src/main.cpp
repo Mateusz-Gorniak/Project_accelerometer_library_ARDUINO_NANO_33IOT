@@ -17,6 +17,7 @@ void setup()
   Serial.println();
   Serial.println("Acceleration in G's");
   Serial.println("X\tY\tZ");
+  delay(1000);
 }
 
 void loop()
@@ -26,12 +27,24 @@ void loop()
   if (IMU.accelerationAvailable())
   {
     IMU.readAcceleration(x, y, z);
-
+    Serial.println("Acceleration in G's");
     Serial.print(x);
     Serial.print('\t');
     Serial.print(y);
     Serial.print('\t');
     Serial.println(z);
-    delay(1000);
+    delay(300);
+  }
+
+  if (IMU.gyroscopeAvailable())
+  {
+    IMU.readGyroscope(x, y, z);
+    Serial.println("Gyroscope val");
+    Serial.print(x);
+    Serial.print('\t');
+    Serial.print(y);
+    Serial.print('\t');
+    Serial.println(z);
+    delay(300);
   }
 }
