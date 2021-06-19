@@ -1,16 +1,37 @@
 #include <LSM6DS3lib.hpp>
+#include <Arduino_LSM6DS3.h>
 
 void setup()
 {
-  // put your setup code here, to run once:
-  pinMode(LED_BUILTIN, OUTPUT);
+  Serial.begin(9600);
+  while (!Serial)
+
+    if (!IMU.begin())
+    {
+      Serial.println("Failed to initialize IMU!");
+    }
+
+  Serial.print("Accelerometer sample rate = ");
+  Serial.print(IMU.accelerationSampleRate());
+  Serial.println(" Hz");
+  Serial.println();
+  Serial.println("Acceleration in G's");
+  Serial.println("X\tY\tZ");
 }
 
 void loop()
 {
-  // put your main code here, to run repeatedly:
-  digitalWrite(LED_BUILTIN, LOW);
-  delay(200);
-  digitalWrite(LED_BUILTIN, HIGH);
-  delay(200);
+  float x, y, z;
+
+  if (IMU.accelerationAvailable())
+  {
+    IMU.readAcceleration(x, y, z);
+
+    Serial.print(x);
+    Serial.print('\t');
+    Serial.print(y);
+    Serial.print('\t');
+    Serial.println(z);
+    delay(1000);
+  }
 }
