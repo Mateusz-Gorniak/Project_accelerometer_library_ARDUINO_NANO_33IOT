@@ -4,6 +4,9 @@
 #include "Arduino.h"
 #include "Wire.h"
 
+//Deklaracje preprocesora
+#define I2C_addr 0x6A
+
 class LSM6DS3
 {
 public:
@@ -12,6 +15,8 @@ public:
     void LSM6DS3_read();
 
 private:
+    void readRegister();
+    void writeRegister();
 };
 
 #endif

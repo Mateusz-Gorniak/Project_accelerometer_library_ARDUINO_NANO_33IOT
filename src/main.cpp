@@ -1,6 +1,8 @@
 #include <LSM6DS3lib.hpp>
 #include <Arduino_LSM6DS3.h>
 
+LSM6DS3 handler;
+
 void setup()
 {
   Serial.begin(9600);
@@ -18,6 +20,7 @@ void setup()
   Serial.println("Acceleration in G's");
   Serial.println("X\tY\tZ");
   delay(1000);
+  handler.LSM6DS3_init();
 }
 
 void loop()
