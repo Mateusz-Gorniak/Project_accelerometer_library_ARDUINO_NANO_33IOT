@@ -26,17 +26,37 @@
 #define OUTZ_L_XL 0x2C
 #define OUTZ_H_XL 0x2D
 
+// Return values
+typedef enum
+{
+    SUCCESS,
+    HW_ERROR,
+    NOT_SUPPORTED,
+    GENERIC_ERROR,
+    OUT_OF_BOUNDS,
+    ALL_ONES_WARNING,
+
+} status_t;
+
 class LSM6DS3
 {
 public:
-    int LSM6DS3_init();
-    int LSM6DS3_write();
-    int LSM6DS3_read();
+    int deviceInit();
+    int deviceEnd();
+
+    // Accelerometer
+    int readAcceleration(float &x, float &y, float &z); // Results are in g (earth gravity).
+    float accelerationSampleRate();                     // Sampling rate of the sensor.
+    int accelerationAvailable();                        // Check for available data from acceler
+                                                        //Gyroscoscope
+    int readGyroscope(float &x, float &y, float &z);    // Results are in degrees/second.
+    float gyroscopeSampleRate();                        // Sampling rate of the sensor.
+    int gyroscopeAvailable();                           // Check for available data from gyroscope
 
 private:
     int readRegister(uint8_t adress);
-    int writeRegister(uint8_t adress);
-    int readRegisterMultiple(uint8_t adress);
+    int writeRegister(uint8_t adress, uint8_t data);
+    int readRegisterMultiple(uint8_t adress, uint8_t *data, size_t length);
 };
 
 #endif
