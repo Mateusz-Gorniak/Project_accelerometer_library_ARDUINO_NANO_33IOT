@@ -20,7 +20,7 @@ void setup()
   Serial.println("Acceleration in G's");
   Serial.println("X\tY\tZ");
   delay(1000);
-  handler.LSM6DS3_init();
+  handler.deviceInit();
 }
 
 void loop()
@@ -50,4 +50,10 @@ void loop()
     Serial.println(z);
     delay(300);
   }
+  float temp = handler.readTemperature();
+  Serial.println("Temp val");
+  Serial.print(temp);
+  Serial.print('\t');
+  delay(300);
+
 }
