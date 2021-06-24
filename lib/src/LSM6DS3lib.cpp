@@ -1,31 +1,29 @@
 #include "LSM6DS3lib.hpp"
 
-int LSM6DS3::deviceInit()
-{
-    //Who I am ID
-    if (readRegister(WHO_AM_I) == 0x69) //9.11 dokumentacja
-    {
-        //konfiguracja urządzenia do pracy po przez wpis do odpowiednich rejestrow
-        Serial.println("Device detected!");
-        writeRegister(CTRL2_G, 0x4C);
-        writeRegister(CTRL1_XL, 0x4A);
-        writeRegister(CTRL7_G, 0x00);
-        writeRegister(CTRL8_XL, 0x09);
-        return 1;
-    }
-    else
-    {
-        deviceEnd();
-        return 0;
-    }
-}
+// int LSM6DS3::deviceInit()
+// {
+//     //Who I am ID
+//     if (readRegister(WHO_AM_I) == 0x69) //9.11 dokumentacja
+//     {
+//         //konfiguracja urządzenia do pracy po przez wpis do odpowiednich rejestrow
+//         Serial.println("Device detected!");
+//         writeRegister(CTRL2_G, 0x4C);
+//         writeRegister(CTRL1_XL, 0x4A);
+//         writeRegister(CTRL7_G, 0x00);
+//         writeRegister(CTRL8_XL, 0x09);
+//         return 1;
+//     }
+//     else
+//     {
+//         deviceEnd();
+//         return 0;
+//     }
+// }
 
 void LSM6DS3::deviceEnd()
 {
     writeRegister(CTRL2_G, 0x00);
     writeRegister(CTRL1_XL, 0x00);
-    writeRegister(CTRL7_G, 0x00);
-    writeRegister(CTRL8_XL, 0x00);
     Wire.end();
 }
 
@@ -75,36 +73,37 @@ float LSM6DS3::readAcc(float &x, float &y, float &z)
 {
 
     int16_t data[3]; //tablica przechowująca wartosci dla
-    if (!readTwoRegisters(OUTX_L_XL, (uint8_t *)data, sizeof(data)))
+    if (readTwoRegisters(OUTX_L_XL, (uint8_t *)data, sizeof(data)))
+    {
+        //wyskalowaie wyniku
+        x = data[0] * scale_factor_acc;
+        y = data[1] * scale_factor_acc;
+        z = data[2] * scale_factor_acc;
+        return 1;
+    }
+    else
     {
         return 0;
     }
-
-    //wyskalowanie wyniku
-    x = data[0] * 4.0 / 32768.0;
-    y = data[1] * 4.0 / 32768.0;
-    z = data[2] * 4.0 / 32768.0;
-
-    return 1;
 }
 
 float LSM6DS3::readGyro(float &x, float &y, float &z)
 {
 
     int16_t data[3]; //tablica przechowująca wartosci dla
-    if (!readTwoRegisters(OUTX_L_XL, (uint8_t *)data, sizeof(data)))
+    if (readTwoRegisters(OUTX_L_G, (uint8_t *)data, sizeof(data)))
+    {
+        //wyskalowanie wyniku
+        x = data[0] * scale_factor_gyro;
+        y = data[1] * scale_factor_gyro;
+        z = data[2] * scale_factor_gyro;
+        return 1;
+    }
+    else
     {
         return 0;
     }
-
-    //wyskalowanie wyniku
-    x = data[0] * 4.0 / 32768.0;
-    y = data[1] * 4.0 / 32768.0;
-    z = data[2] * 4.0 / 32768.0;
-
-    return 1;
 }
-
 float LSM6DS3::readTemperature()
 {
     float temp;
@@ -119,3 +118,4 @@ float LSM6DS3::readTemperature()
 
     return temp;
 }
+///////////////////////////////////////////////////////////////////////////////////////////////////////

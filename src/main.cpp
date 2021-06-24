@@ -23,7 +23,7 @@ void setup()
   Serial.println("Acceleration in G's");
   Serial.println("X\tY\tZ");
   delay(1000);
-  handler.deviceInit();
+  // handler.deviceInit();
 }
 
 void loop()
@@ -43,7 +43,7 @@ void loop()
   }
   if (IMU.gyroscopeAvailable())
   {
-    IMU.readGyroscope(x, y, z);
+    handler.readGyro(x, y, z);
     Serial.println("Gyroscope val in deg/sec");
     Serial.print(x);
     Serial.print('\t');

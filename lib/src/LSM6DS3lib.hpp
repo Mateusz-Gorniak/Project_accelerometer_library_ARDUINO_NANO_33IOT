@@ -7,13 +7,18 @@
 //Deklaracje preprocesora
 #define I2C_device_addr 0x6A
 #define WHO_AM_I 0x0F
-#define LSM6DS3_STATUS_REG 0X1E
+#define STATUS_REG 0X1E
 #define CTRL1_XL 0X10
 #define CTRL2_G 0X11
 #define STATUS_REG 0X1E
 #define CTRL6_C 0X15
 #define CTRL7_G 0X16
 #define CTRL8_XL 0X17
+#define CTRL3_C 0X12
+#define CTRL4_C 0X13
+#define CTRL5_C 0X14
+#define CTRL9_XL 0X18
+#define CTRL10_C 0X19
 
 // Rejestry - zyroskop
 #define OUTX_L_G 0x22
@@ -34,6 +39,10 @@
 // Rejestry - temperatura
 #define ACC_GYRO_OUT_TEMP_L 0X20
 
+//pomocnicze
+#define scale_factor_acc 4.0 / 32768.0
+#define scale_factor_gyro 2000.0 / 32768.0
+
 class LSM6DS3
 {
 public:
@@ -41,13 +50,13 @@ public:
     void deviceEnd();
 
     // Accelerometer
-    float readAcc(float &x, float &y, float &z); // Wynik odczytu akcelerometru
-    float accelerationSampleRate();              // Czestotliwosc probkowania akcelerometru
-    int accelerationAvailable();                 // Funkcja sprawdzajaca czy z akcelerometru są odczytywane dane
-    //Gyroscoscope
-    float readGyroscope(float &x, float &y, float &z); // Wynik odczytu z żyroskopu w stopniach na sekunde
-    float gyroscopeSampleRate();                       // Czestotliwosc probkowania żyroskopu
-    int gyroscopeAvailable();                          // Funkcja sprawdzajaca czy z żyroskopu są odczytywane dane
+    float readAcc(float &x, float &y, float &z);  // Wynik odczytu akcelerometru
+    float accSampleRate();                        // Czestotliwosc probkowania akcelerometru
+    int accAvailable();                           // Funkcja sprawdzajaca czy z akcelerometru są odczytywane dane
+                                                  //Gyroscoscope
+    float readGyro(float &a, float &b, float &c); // Wynik odczytu z żyroskopu w stopniach na sekunde
+    float gyroSampleRate();                       // Czestotliwosc probkowania żyroskopu
+    int gyroAvailable();                          // Funkcja sprawdzajaca czy z żyroskopu są odczytywane dane
 
     //Temperature
     float readTemperature();
